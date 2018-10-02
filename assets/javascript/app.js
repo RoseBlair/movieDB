@@ -41,25 +41,57 @@ function searchForMovies(title) {
 function displaySearchResults(resp) {
   var resultLimit;
 
+  //limits results to 10 or max of returned if less than 10 results
   if (resp.length > 10) {
     resultLimit = 10;
   } else {
     resultLimit = resp.length;
   }
 
+  //loops through results and appends movie poster to DOM
   for (var i = 0; i < resultLimit; i++) {
     var currentResp = resp[i],
         src = [tmdb.imageUrl, currentResp.poster_path].join("");
     
+    //if movie poster exists add it to DOM
     if (currentResp.poster_path) {
-      var newMovie = $("<img>");
-        
+      var newDiv = $("<div>"),
+          newMovie = $("<img>"),
+          addBtn = $("<btn>");
+      
+      //adds attributes to movie poster image
       newMovie.attr({
           "src": src,
-          "alt": currentResp.title
-      }).addClass("searchedMovie");
+          "alt": currentResp.title,
+      });
 
-      $movieSearch.append(newMovie);
+      //adds text, movie id and classes to button
+      addBtn.text("Add to Library").addClass("btn btn-primary addLib").attr("data-id", currentResp.id);
+
+      //appends movie poster and btn to div
+      newDiv.append(newMovie, addBtn).addClass("searchedMovie");
+
+      //appends created div to DOM
+      $movieSearch.append(newDiv);
     }
   }
 }
+
+function addMovieToDb(movieID) {
+  db.ref().push({
+    id: movieID
+  });
+}
+
+//event listener to get movie id from "add to library" button and pass into another function
+$(document).on("click", ".addLib", function() {
+  var btn = $(this),
+      id = btn.attr("data-id");
+
+  if (!btn.hasClass("disabled")) {
+    addMovieToDb(id);
+
+    //disable button and change text
+    btn.html("&#10004; Added to Library").addClass("disabled btn-secondary").removeClass("btn-primary");
+  }
+});
