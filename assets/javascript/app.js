@@ -101,15 +101,11 @@ function alreadyInDb(idToMatch) {
 
 function addMovieToDb(movieID) {
   var exists = alreadyInDb(movieID);
-  
-  console.log(exists);
 
   if (!exists) {
     db.ref().push({
       id: movieID
     });
-
-  console.log(exists);
   }
 }
 
