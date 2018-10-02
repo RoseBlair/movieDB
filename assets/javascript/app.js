@@ -77,10 +77,40 @@ function displaySearchResults(resp) {
   }
 }
 
-function addMovieToDb(movieID) {
-  db.ref().push({
-    id: movieID
+function alreadyInDb(idToMatch) {
+  db.ref().once("value").then(function (snapshot) {
+    var dbVal = snapshot.val(),
+        dbKeys = Object.keys(dbVal);
+
+    for (var i = 0; i < dbKeys.length; i++) {
+      var id = dbVal[dbKeys[i]].id;
+
+      //id already exists
+      if (id === idToMatch) {
+        return true;
+      }
+    }
+
+    //id doesn't exist yet
+    return false;
+  }).catch(function (error) {
+    //catch and log error from database request
+    console.log(`Error: ${error}`);
   });
+}
+
+function addMovieToDb(movieID) {
+  var exists = alreadyInDb(movieID);
+  
+  console.log(exists);
+
+  if (!exists) {
+    db.ref().push({
+      id: movieID
+    });
+
+  console.log(exists);
+  }
 }
 
 //event listener to get movie id from "add to library" button and pass into another function
