@@ -51,8 +51,8 @@ function displayCollection() {
   
     }).then(function (resp) {
       //loops through results and appends movie poster to DOM
-      for (var i = 0; i < resp; i++) {
-        var currentResp = resp[i],
+      for (var x = 0; x < resp; x++) {
+        var currentResp = resp[x],
             src = [tmdb.imageUrl, currentResp.poster_path].join("");
         
         //if movie poster exists add it to DOM
@@ -158,7 +158,7 @@ db.ref().on("value", function(snapshot) {
     for (var i = 0; i < dbKeys.length; i++) {
       movieIDs.push(dbVal[dbKeys[i]].id);
     }
-    console.log("JI");
+
     //display existing collection
     displayCollection();
   }
