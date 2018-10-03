@@ -18,7 +18,8 @@ var $movieSearch = $("#movieSearch"),
       apiKey: "api_key=951021584287e01bb1ba8473989df6da",
       lang: "&language=en-US"
     },
-    db = firebase.database();
+    db = firebase.database(),
+    movieIDs;
 
 function searchForMovies(title) {
   //create request url
@@ -64,9 +65,15 @@ function displaySearchResults(resp) {
           "src": src,
           "alt": currentResp.title,
       });
-
-      //adds text, movie id and classes to button
-      addBtn.text("Add to Library").addClass("btn btn-primary addLib").attr("data-id", currentResp.id);
+      console.log(currentResp.id);
+      console.log(movieIDs.indexOf(currentResp.id));
+      if (movieIDs.indexOf(currentResp.id) === -1) {
+        //adds text, movie id and classes to button
+        addBtn.text("Add to Library").addClass("btn btn-primary addLib").attr("data-id", currentResp.id);
+      } else {
+        //movie already in library
+        addBtn.html("&#9747; Already in Library").addClass("btn btn-secondary disabled");
+      }
 
       //appends movie poster and btn to div
       newDiv.append(newMovie, addBtn).addClass("searchedMovie");
@@ -77,36 +84,10 @@ function displaySearchResults(resp) {
   }
 }
 
-function alreadyInDb(idToMatch) {
-  db.ref().once("value").then(function (snapshot) {
-    var dbVal = snapshot.val(),
-        dbKeys = Object.keys(dbVal);
-
-    for (var i = 0; i < dbKeys.length; i++) {
-      var id = dbVal[dbKeys[i]].id;
-
-      //id already exists
-      if (id === idToMatch) {
-        return true;
-      }
-    }
-
-    //id doesn't exist yet
-    return false;
-  }).catch(function (error) {
-    //catch and log error from database request
-    console.log(`Error: ${error}`);
-  });
-}
-
 function addMovieToDb(movieID) {
-  var exists = alreadyInDb(movieID);
-
-  if (!exists) {
-    db.ref().push({
-      id: movieID
-    });
-  }
+  db.ref().push({
+    id: parseInt(movieID)
+  });
 }
 
 //event listener to get movie id from "add to library" button and pass into another function
@@ -120,4 +101,26 @@ $(document).on("click", ".addLib", function() {
     //disable button and change text
     btn.html("&#10004; Added to Library").addClass("disabled btn-secondary").removeClass("btn-primary");
   }
+});
+
+//when movies are added or removed from the database, update the local array
+db.ref().on("value", function(snapshot) {
+  var dbVal = snapshot.val(),
+      dbKeys;
+    
+  //create empty array for ID's
+  movieIDs = [];
+
+  if (dbVal !== null) {
+    //get keys
+    dbKeys = Object.keys(dbVal);
+
+    //append ID's to array
+    for (var i = 0; i < dbKeys.length; i++) {
+      movieIDs.push(dbVal[dbKeys[i]].id);
+    }
+  }
+}, function(error) {
+  //catch and log error from database request
+  console.log(`Error: ${error}`);
 });
