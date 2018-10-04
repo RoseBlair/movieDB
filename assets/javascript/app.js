@@ -14,10 +14,10 @@ var config = {
 var $movieSearch = $("#movieSearch"),
     $movieCollection = $("#movieCollection"),
     tmdb = {
-      searchUrl: "https://api.themoviedb.org/3/search/movie?",
+      searchUrl: "https://api.themoviedb.org/3/search/movie",
       imageUrl: "https://image.tmdb.org/t/p/w500",
       idUrl: "https://api.themoviedb.org/3/movie/",
-      apiKey: "api_key=951021584287e01bb1ba8473989df6da",
+      apiKey: "?api_key=951021584287e01bb1ba8473989df6da",
       lang: "&language=en-US"
     },
     db = firebase.database(),
@@ -50,7 +50,7 @@ function displayCollection() {
   $movieCollection.empty();
 
   for (var i = 0; i < movieIDs.length; i++) {
-    var url = [tmdb.idUrl, movieIDs[i], "?", tmdb.apiKey, tmdb.lang].join("");
+    var url = [tmdb.idUrl, movieIDs[i], tmdb.apiKey, tmdb.lang].join("");
 
     $.ajax({
       url: url,
@@ -60,16 +60,32 @@ function displayCollection() {
       if (resp.poster_path) {
         var src = [tmdb.imageUrl, resp.poster_path].join(""),
             newDiv = $("<div>"),
-            movie = $("<img>");
+            detailsDiv = $("<div>"),
+            movie = $("<img>"),
+            genre = $("<p>"),
+            genreList = [],
+            plot = $("<p>");
         
         //adds attributes to movie poster image
         movie.attr({
             "src": src,
             "alt": resp.title,
-        }).addClass("img-fluid");
+        });
 
-        //appends poster to div
-        newDiv.append(movie).addClass("inCollection");
+        //Loops though genres
+        for (var x = 0; x < resp.genres.length; x++) {
+          genreList.push(resp.genres[x].name);
+        }
+
+        //joins genres together into list
+        genre.text(genreList.sort().join(", "));
+
+        //gets movie plot
+        plot.text(resp.overview);
+        
+        //append into div
+        detailsDiv.addClass("movieDetails").append(genre, plot);
+        newDiv.append(movie, detailsDiv);
 
         //appends created div to DOM
         $movieCollection.append(newDiv);
@@ -82,6 +98,9 @@ function displayCollection() {
 
 function displayMovieSearch(resp) {
   var resultLimit;
+
+  //clear DOM
+  $movieSearch.empty();
 
   //limits results to 10 or max of returned, if less than 10 results
   if (resp.length > 10) {
@@ -120,7 +139,7 @@ function displayMovieSearch(resp) {
       }
 
       //appends movie poster and btn to div
-      newDiv.append(movie, btn).addClass("searchedMovie");
+      newDiv.append(movie, btn);
 
       //appends created div to DOM
       $movieSearch.append(newDiv);
