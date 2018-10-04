@@ -39,8 +39,10 @@ function searchMovie(title) {
     url: url,
     method: "GET"
   }).then(function (resp) {
+    //pass response into display function
     displayMovieSearch(resp.results);
   }).catch(function (error) {
+    //catch error message
     console.log(`Error: ${error}`);
   });
 }
@@ -49,6 +51,7 @@ function displayCollection() {
   //clear DOM
   $movieCollection.empty();
 
+  //loops through each movie in db
   for (var i = 0; i < movieIDs.length; i++) {
     var url = [tmdb.idUrl, movieIDs[i], tmdb.apiKey, tmdb.lang].join("");
 
@@ -66,31 +69,32 @@ function displayCollection() {
             genreList = [],
             plot = $("<p>");
         
-        //adds attributes to movie poster image
+        //add attributes to movie poster
         movie.attr({
             "src": src,
             "alt": resp.title,
         });
 
-        //Loops though genres
+        //Loop though genres
         for (var x = 0; x < resp.genres.length; x++) {
           genreList.push(resp.genres[x].name);
         }
 
-        //joins genres together into list
+        //join genres together into list
         genre.text(genreList.sort().join(", "));
 
-        //gets movie plot
+        //get movie plot
         plot.text(resp.overview);
         
         //append into div
         detailsDiv.addClass("movieDetails").append(genre, plot);
         newDiv.append(movie, detailsDiv);
 
-        //appends created div to DOM
+        //append div to DOM
         $movieCollection.append(newDiv);
       }
     }).catch(function (error) {
+      //catch error message
       console.log(`Error: ${error}`);
     });
   }
@@ -102,31 +106,31 @@ function displayMovieSearch(resp) {
   //clear DOM
   $movieSearch.empty();
 
-  //limits results to 10 or max of returned, if less than 10 results
+  //limit results to 10 or max of returned, if less than 10 results
   if (resp.length > 10) {
     resultLimit = 10;
   } else {
     resultLimit = resp.length;
   }
 
-  //loops through results and appends movie poster to DOM
+  //loop through results and appends movie poster to DOM
   for (var i = 0; i < resultLimit; i++) {
     var currResp = resp[i],
         src = [tmdb.imageUrl, currResp.poster_path].join("");
     
-    //if movie poster exists, add it to DOM
+    //if movie poster exists...
     if (currResp.poster_path) {
       var newDiv = $("<div>"),
           movie = $("<img>"),
           btn = $("<btn>");
       
-      //adds attributes to movie poster image
+      //add attributes to movie poster
       movie.attr({
           "src": src,
           "alt": currResp.title,
       });
 
-      //change display of button if the movie is already in the database
+      //change button if the movie already in database
       if (movieIDs.indexOf(currResp.id) === -1) {
         //movie not in collection
         btn.attr({
@@ -134,14 +138,14 @@ function displayMovieSearch(resp) {
             "data-title": currResp.title
           }).text("Add to Library").addClass("btn btn-primary addLib");
       } else {
-        //movie already in collection
+        //movie in collection
         btn.html("&#9747; Already in Library").addClass("btn btn-secondary disabled");
       }
 
-      //appends movie poster and btn to div
+      //append movie poster and btn to div
       newDiv.append(movie, btn);
 
-      //appends created div to DOM
+      //append created div to DOM
       $movieSearch.append(newDiv);
     }
   }
@@ -159,7 +163,7 @@ $(document).on("click", ".addLib", function() {
     btn.html("&#10004; Added to Library").addClass("disabled btn-secondary").removeClass("btn-primary");
 });
 
-//when movies are added or removed from the database or when the page first loads, update the local array
+//when movies are added or removed from the database or when the page first loads, create/update the local array
 db.ref().on("value", function(snapshot) {
   var dbVal = snapshot.val(),
       dbKeys;
@@ -180,6 +184,18 @@ db.ref().on("value", function(snapshot) {
     displayCollection();
   }
 }, function(error) {
-  //catch and log error from database request
+  //catch error message
   console.log(`Error: ${error}`);
+});
+
+//event listener for movie search button
+$("#searchMovie").on("click", function() {
+  //prevent page from refreshing
+  event.preventDefault();
+
+  //get user input
+  var title = $("#titleInput").val().trim().toLowerCase();
+
+  //pass title into search function
+  searchMovie(title);
 });
