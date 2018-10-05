@@ -8,30 +8,30 @@
       <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
       <title>movieDB</title>
   </head>
-  <body>
+  <body class="bg-secondary">
     <!-- Jumbotron -->
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light bg-secondary">
       <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link font-weight-bold" href="#">Home</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Search</a>
+            <a class="nav-link font-weight-bold" href="#movieSearch">Search</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Library</a>
+            <a class="nav-link font-weight-bold" href="#">Library</a>
           </li>
 
         </ul>
       </div>
     </nav> 
-    <div class="container">
-      <div class="jumbotron">
-        <div class="text-center"><img src="assets/images/reel.png" width="150px;"><h1 bm-5>Movie Library</h1>
+    <div class="container text-center">
+      <div class="jumbotron bg-info">
+        <div class="text-center"><img src="assets/images/reel.png" width="150px;"><h1 mb-5>Movie Library</h1>
       </div>
       
       
@@ -40,7 +40,7 @@
         <div class="col-md-12">
           <!-- Current Movies-->
           <div class="card mb-4">
-            <div class="card-header">Current Movies</div>
+            <div class="card-header pb-6">Current Movies</div>
             <div class="card-body" id="movieCollection">
           </div>
         </div>
@@ -51,12 +51,12 @@
       <div class="col-md-12">
         <!-- Add Movie  -->
         <div class="card mb-4">
-          <div class="card-header">Search for Movie</div>
+          <div class="card-header">Search for Movies</div>
           <div class="card-body">
             <!-- Entry Form -->
             <form>
               <div class="form-group">
-                <label for="titleInput">Movie Title</label>
+                <!-- <label for="titleInput">Movie Title</label> -->
                 <input class="form-control" id="titleInput" placeholder="Movie Title" type="text">
               </div>
               <button class="btn btn-primary float-left" id="searchMovie">Search</button>
