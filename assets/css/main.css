@@ -1,4 +1,14 @@
 
-.libraryBody {
-    background-color: grey;
+.banner {
+    position: relative;
+    text-align: center;
 }
+
+ .centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+
