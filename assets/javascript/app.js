@@ -67,7 +67,8 @@ function displayCollection() {
             movie = $("<img>"),
             genre = $("<p>"),
             genreList = [],
-            plot = $("<p>");
+            plot = $("<p>"),
+            removeBtn = $("<btn>");
         
         //add attributes to movie poster
         movie.attr({
@@ -86,8 +87,10 @@ function displayCollection() {
         //get movie plot
         plot.text(resp.overview);
         
+        removeBtn.attr("data-id", resp.id).html("&#9747; Remove from Library").addClass("btn btn-danger removeBtn");
+
         //append into div
-        detailsDiv.addClass("movieDetails").append(genre, plot);
+        detailsDiv.addClass("movieDetails").append(genre, plot, removeBtn);
         newDiv.append(movie, detailsDiv);
 
         //append div to DOM
@@ -98,6 +101,12 @@ function displayCollection() {
       console.log(`Error: ${error}`);
     });
   }
+}
+
+function removeMovie() {
+  var id = $(this).attr("data-id");
+
+  console.log(id);
 }
 
 function displayMovieSearch(resp) {
@@ -199,3 +208,6 @@ $("#searchMovie").on("click", function() {
   //pass title into search function
   searchMovie(title);
 });
+
+//event listener to remove movie from collection
+$(document).on("click", ".removeBtn", removeMovie);
