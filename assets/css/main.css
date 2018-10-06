@@ -17,3 +17,8 @@
     opacity: 0.2;
     /* filter: alpha(opacity=50); */
 }
+
+.navbar {
+    position: fixed;
+    top: 0;
+}
