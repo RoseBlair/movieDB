@@ -6,66 +6,60 @@
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
       <!-- Custom CSS-->
       <link rel="stylesheet" type="text/css" href="assets/css/main.css"/>
-      <title>movieDB</title>
+      <title>Movie Collection DB</title>
   </head>
-  <body class="bg-secondary">
-    <!-- Jumbotron -->
-
+  <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light bg-secondary">
-      <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="#"><h5>Home</h5></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="#movieSearch"><h5>Search</h5></a>
-          </li>
-
-          <li class="nav-item">
-            <a class="nav-link font-weight-bold" href="#"><h5>Library</h5></a>
-          </li>
-
-        </ul>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link" href="#movieSearch">Search</a>
+          <a class="nav-item nav-link" href="#">Library</a>
+        </div>
       </div>
-    </nav> 
+    </nav>
+
+    <!-- Jumbotron -->
+    <div class="jumbotron banner">
+        <h1 class="centered font-weight-bold display-1">Movie Library</h1>
+    </div>
+
     <div class="container">
-      <div class="jumbotron bg-info text-center pt-3">
-        <div class="banner"><img src="assets/images/banner.jpg" width="100%;" class="bannerPic">
-            <h1 class="centered font-weight-bold display-1">Movie Library</h1>
-        </div>
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 sectionHeader">
+          <h3>Your Movies</h3>
+          <hr />
           <!-- Current Movies-->
-          <div class="card mb-4">
-            <div class="card-header pb-6"><h5>Your Movies</h5></div>
-            <div class="card-body" id="movieCollection">
+          <div id="movieCollection">
           </div>
         </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <!-- Add Movie  -->
-        <div class="card mb-4">
-          <div class="card-header font-weight-bold text-center" id="movieSearch"><h4>Search for Movies</h4></div>
-          <div class="card-body">
-            <!-- Entry Form -->
-            <form>
-              <div class="form-group">
-                <!-- <label for="titleInput">Movie Title</label> -->
-                <input class="form-control" id="titleInput" placeholder="Movie Title" type="text">
-              </div>
-              <button class="btn btn-primary float-left" id="searchMovie">Search</button>
-            </form>
-            <div id="movieSearch"></div>
+    <div class="container contentSection">
+      <div class="row">
+        <div class="col-md-12 sectionHeader">
+          <h3>Search for Movies</h3>
+          <hr />
+          <!-- Search Form -->
+          <form>
+            <div class="form-group">
+              <input class="form-control" id="titleInput" placeholder="Movie Title" type="text">
             </div>
+            <button class="btn btn-primary float-left" id="searchMovie">Search</button>
+          </form>
+          <div id="movieSearch"></div>
           </div>
         </div>
       </div>
     </div>
-        
+    
+    <!-- Async JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/async/2.6.1/async.js"></script>
     <!-- Firebase -->
     <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
     <!-- JQuery -->
@@ -74,5 +68,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <!-- Custom JS -->
     <script src="assets/javascript/app.js"></script>
-</body>
+  </body>
 </html>
