@@ -9,7 +9,7 @@ var config = {
   };
 
   firebase.initializeApp(config);
-  
+ 
 //BEGIN JS CODE FOR APP BELOW THIS POINT
 var $movieSearch = $("#movieSearch"),
     $movieCollection = $("#movieCollection"),
@@ -228,7 +228,7 @@ function displayMovieSearch(resp) {
           }).text("Add to Library").addClass("btn btn-primary addLib");
       } else {
         //movie in collection
-        btn.html("&#9747; Already in Library").addClass("btn btn-secondary addLib disabled");
+        btn.html("&#10008; Already in Library").addClass("btn btn-secondary addLib disabled");
       }
 
       //append movie poster and btn to div

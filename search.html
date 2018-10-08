@@ -16,8 +16,8 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link active" href="index.html">Library <span class="sr-only">(current)</span></a>
-          <a class="nav-item nav-link" href="search.html">Search</a>
+          <a class="nav-item nav-link" href="index.html">Library <span class="sr-only">(current)</span></a>
+          <a class="nav-item nav-link active" href="search.html">Search</a>
         </div>
       </div>
     </nav>
@@ -27,20 +27,26 @@
         <h1 class="centered font-weight-bold display-1">Movie Library</h1>
     </div>
 
-    <div class="container">
+    <div class="container contentSection">
       <div class="row">
         <div class="col-md-12 sectionHeader">
-          <h3>Your Movies</h3>
+          <h3>Search for Movies</h3>
           <hr />
-          <!-- Current Movies-->
-          <div id="movieCollection">
+          <!-- Search Form -->
+          <form>
+            <div class="form-group">
+              <input class="form-control" id="titleInput" placeholder="Movie Title" type="text">
+            </div>
+            <button class="btn btn-primary float-left" id="searchMovie">Search</button>
+          </form>
+          <div id="movieSearch"></div>
           </div>
         </div>
       </div>
     </div>
 
     <footer class="container footer">
-      &copy; 2018 - Chris Human, Carolyn Bernier, & Sam Bussey
+        &copy; 2018 - Chris Human, Carolyn Bernier, & Sam Bussey
     </footer>
     
     <!-- Async JS -->
