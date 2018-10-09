@@ -22,7 +22,7 @@ All of the site's behavior and functionality takes place without the browser win
 # Future Enhancements
 
 There are several things that could be done to improve this project and expand it's functionality.
-1. Add button that displays a pop-up window of the movie trailer.
+1. Trailer button creates a pop-up of the trailer video instead of opening a new browser tab.
 2. Integrate JS library that allows for playback of movies in collection if mp4 file is on detected external HD.
 3. TMDB API only allows for 40 calls every 10 seconds. Create paged collection structure with 40 results per page max to alleviate this bottleneck.
 4. Integrate user profile functionality to allow for people to have their own collection instead of sharing the same collection.
