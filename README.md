@@ -18,6 +18,7 @@ All of the site's behavior and functionality takes place without the browser win
 - JQuery 3.3.1
 - ASync JS 2.6.1
 - Firebase DB 5.5.2
+- The Movie Database (TMDb) API v3
 
 # Future Enhancements
 
