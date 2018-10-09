@@ -18,8 +18,10 @@ var $movieSearch = $("#movieSearch"),
       imageUrl: "https://image.tmdb.org/t/p/w500",
       idUrl: "https://api.themoviedb.org/3/movie/",
       apiKey: "?api_key=951021584287e01bb1ba8473989df6da",
-      lang: "&language=en-US"
+      lang: "&language=en-US", 
+      vid: "&append_to_response=videos"
     },
+    youTube = "https://www.youtube.com/watch?v=",
     db = firebase.database(),
     movies = [];
 
@@ -46,7 +48,7 @@ function removeFromDB(key) {
 
 function searchMovie(title) {
   //create request url
-  var url = [tmdb.searchUrl, tmdb.apiKey, tmdb.lang, "&query=", title].join("");
+  var url = [tmdb.searchUrl, tmdb.apiKey, tmdb.lang, tmdb.vid, "&query=", title].join("");
 
   $.ajax({
     url: url,
@@ -66,7 +68,7 @@ function ajaxParallelCalls() {
 
   //loop through the movies in the collection
   for(var i = 0; i < movies.length; i++) {
-    var url = [tmdb.idUrl, movies[i].id, tmdb.apiKey, tmdb.lang].join(""),
+    var url = [tmdb.idUrl, movies[i].id, tmdb.apiKey, tmdb.lang, tmdb.vid].join(""),
         call;
 
     //assign ajax call to array
@@ -128,7 +130,8 @@ function displayCollection(resp) {
           genre = $("<p>"),
           genreList = [],
           plot = $("<p>"),
-          btn = $("<btn>"),
+          rmBtn = $("<btn>"),
+          trailerBtn = $("<btn>"),
           rowDiv;
       
       //add attributes to movie poster
@@ -148,21 +151,24 @@ function displayCollection(resp) {
       //get movie plot
       plot.text(currMovie.overview).addClass("plot");
       
+      //create trailer button
+      trailerBtn.addClass("btn btn-warning trailerBtn").html("&#9654; View Trailer").attr("data-src", youTube + currMovie.videos.results[0].key);
+
       //loop through local array to find firebase key
       for (var y = 0; y < movies.length; y++) {
         if (movies[y].id === currMovie.id) {
-          btn.attr("data-key", movies[y].key);
+          rmBtn.attr("data-key", movies[y].key);
           //exit loop
           break;
         }
       }
       
       //Add classes and text to button
-      btn.addClass("btn btn-danger rmLib").html("&#10008; Remove from Library");
+      rmBtn.addClass("btn btn-danger rmLib").html("&#10008; Remove from Library");
 
       //append into div
       detailsDiv.addClass("movieDetails").append(genre, plot);
-      newDiv.append(movie, detailsDiv, btn).addClass("col-lg-4 movieDiv");
+      newDiv.append(movie, detailsDiv, trailerBtn, rmBtn).addClass("col-lg-4 movieDiv");
 
       //creates a new row div if the element is the 1st, 4th, etc.
       if (i % 3 === 0) {
@@ -201,7 +207,7 @@ function displayMovieSearch(resp) {
     if (currResp.poster_path) {
       var newDiv = $("<div>"),
           movie = $("<img>"),
-          btn = $("<btn>"),
+          libBtn = $("<btn>"),
           rowDiv;
       
       //add attributes to movie poster
@@ -222,17 +228,17 @@ function displayMovieSearch(resp) {
       //change button if the movie already in database
       if (inDatabase === false) {
         //movie not in collection
-        btn.attr({
+        libBtn.attr({
             "data-id": currResp.id,
             "data-title": currResp.title
           }).text("Add to Library").addClass("btn btn-primary addLib");
       } else {
         //movie in collection
-        btn.html("&#10008; Already in Library").addClass("btn btn-secondary addLib disabled");
+        libBtn.html("&#10008; Already in Library").addClass("btn btn-secondary addLib disabled");
       }
 
       //append movie poster and btn to div
-      newDiv.append(movie, btn).addClass("col-lg-4 movieDiv");
+      newDiv.append(movie, libBtn).addClass("col-lg-4 movieDiv");
 
       //creates a new row div if the element is the 1st, 4th, etc.
       if (i % 3 === 0) {
@@ -322,4 +328,12 @@ $("#searchMovie").on("click", function() {
 
   //pass title into search function
   searchMovie(title);
+});
+
+//movie trailer listener
+$(document).on("click", ".trailerBtn", function() {
+  vid = $(this).attr("data-src");
+
+  //open trailer in new window
+  window.open(vid, '_blank');
 });

@@ -50,10 +50,6 @@ form {
     margin-bottom: 100px;
 }
 
-.addLib {
-    margin-top: 15px;
-}
-
 .searchRow {
     margin: 30px 0;
 }
@@ -72,4 +68,13 @@ footer {
     color: white;
     font-weight: bold;
     padding: 20px 0;
+}
+
+.addLib {
+    margin-top: 15px;
+}
+
+.trailerBtn, .rmLib {
+    display: block;
+    margin: 15px 0;
 }
