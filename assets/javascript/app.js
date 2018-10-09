@@ -37,7 +37,7 @@ function addMovieToDb(movieID, movieTitle) {
 
 //Removes movie entry from database
 function removeFromDB(key) {
-  //clear array before update
+  //clear array and DOM before update
   movies = [];
 
   //remove entry from db
@@ -276,6 +276,7 @@ db.ref().on("value", function(snapshot) {
   var dbVal = snapshot.val(),
       dbKeys;
 
+  //Does data exist...
   if (dbVal !== null) {
     //get keys
     dbKeys = Object.keys(dbVal);
@@ -295,6 +296,9 @@ db.ref().on("value", function(snapshot) {
     ajaxParallelCalls();
   } else {
     //there are no movies to display
+    //clear DOM
+    $movieCollection.empty();
+
     var header = $("<h3>"),
         msg = $("<p>");
 
