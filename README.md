@@ -4,11 +4,11 @@ This collaborative project allows for people to add, remove, and keep track of t
 
 # General Use
 
-When a user accesses the main page of the project, they are greeted with their collection of movies. This data is stored in a Firebase database and is dynamically accessed when the page loads and freshes the DOM as changes are mad eto the database. API integration was added to allow for a user to search for additional movies to add to their collection. 
+When a user accesses the main page of the project, they are greeted with their collection of movies. This data is stored in a Firebase database and is dynamically accessed when the page loads and freshes the DOM as changes are made to the database. API integration allows for a user to search for additional movies to add to their collection. 
 
 # Notes
 
-All of the site's behavior and functionality takes place without the browser window refreshing, unless switching from the Library and Search pages to the other page.
+All of the site's behavior and functionality takes place without the browser window refreshing, unless switching from the Library or Search pages via the navbar.
 
 # Languages/Libraries/Concepts Used
 - HTML 5
